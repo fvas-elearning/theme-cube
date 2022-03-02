@@ -2,6 +2,7 @@
 
 // Form
 .tk-form {
+  //@include make-container();
 
   .nav-tabs {
     > li.nav-item.has-error {
@@ -69,11 +70,27 @@
     }
   }
 
+  .fieldset {
+    .legend {
+      //display: block;
+      //width: 100%;
+      //max-width: 100%;
+      //padding: 0;
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+      line-height: inherit;
+      color: inherit;
+      white-space: normal;
+    }
+
+  }
+
   .form-row {
+    //@include make-row();
 
     &.tk-form-events {
-      margin-left: 0;
-      margin-right: 0;
+      //margin-left: 0;
+      //margin-right: 0;
     }
   }
 

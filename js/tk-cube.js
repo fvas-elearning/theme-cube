@@ -10,6 +10,7 @@ config.tkPanel = {
 };
 
 
+
 $(function($) {
 
   // ------------------   dropdown menu     -----------------------------------
@@ -153,10 +154,52 @@ $(function($) {
 			$('#nav-col-submenu').html('');
 		}
 	});
-	
+
+	/****************************************************************************/
+
+	function createCookie(name, value, days) {
+		var expires;
+
+		if (days) {
+			var date = new Date();
+			date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+			expires = "; expires=" + date.toGMTString();
+		} else {
+			expires = "";
+		}
+		document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + expires + "; path=/";
+	}
+	function readCookie(name) {
+		var nameEQ = encodeURIComponent(name) + "=";
+		var ca = document.cookie.split(';');
+		for (var i = 0; i < ca.length; i++) {
+			var c = ca[i];
+			while (c.charAt(0) === ' ')
+				c = c.substring(1, c.length);
+			if (c.indexOf(nameEQ) === 0)
+				return decodeURIComponent(c.substring(nameEQ.length, c.length));
+		}
+		return null;
+	}
+	function eraseCookie(name) {
+		createCookie(name, "", -1);
+	}
+	/****************************************************************************/
+
 	$('#make-small-nav').click(function (e) {
 		$('#page-wrapper').toggleClass('nav-small');
+		createCookie('nav-small', $('#page-wrapper').hasClass('nav-small'));
 	});
+	if (readCookie('nav-small') == 'true') {
+		$('#page-wrapper').addClass('nav-small');
+	} else {
+		$('#page-wrapper').removeClass('nav-small');
+	}
+
+
+
+
+
 	
 	$(window).smartresize(function(){
 		if ($( document ).width() <= 991) {
@@ -198,9 +241,6 @@ $(function($) {
 
 
 
-
-
-
 $.fn.removeClassPrefix = function(prefix) {
     this.each(function(i, el) {
         var classes = el.className.split(" ").filter(function(c) {
@@ -237,3 +277,20 @@ $.fn.removeClassPrefix = function(prefix) {
 	jQuery.fn[sr] = function(fn){	return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
 
 })(jQuery,'smartresize');
+
+
+
+$(document).on('click', '[data-toggle="lightbox"], .ui-lightbox', function(event) {
+	if ($(this).attr('href').match(/(^data:image\/.*,)|(\.(jp(e|g|eg)|gif|png|bmp|webp|svg)((\?|#).*)?$)/i)) {
+		event.preventDefault();
+		$(this).ekkoLightbox({
+			//alwaysShowClose: true
+			onShow: function onShow(lb) {
+				this._$element.data('disableExternalCheck', true);
+			}
+		});
+	}
+});
+
+
+
